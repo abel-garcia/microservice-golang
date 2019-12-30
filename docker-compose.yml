@@ -1,0 +1,10 @@
+
+version: '3.3'
+
+services:
+  app:
+    image: golang:1.11-alpine
+    volumes:
+      - .:/go/service/framework
+    working_dir: /go/service/framework
+    command: go build -o bin/framework-${ENV:-sandbox} .

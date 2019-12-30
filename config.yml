@@ -1,0 +1,6 @@
+server:
+    write_timeout: 15
+    read_timeout: 15
+    idle_timeout: 60
+    port: 8881
+    addr: "0.0.0.0"
