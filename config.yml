@@ -4,3 +4,11 @@ server:
     idle_timeout: 60
     port: 8881
     addr: "0.0.0.0"
+database:
+    dialect: "postgresql"
+    port: 5432
+    user: "user"
+    password: "password"
+    host: "localhost"
+    name: "name database"
+    max_connections: 0

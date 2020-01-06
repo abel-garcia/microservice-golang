@@ -28,7 +28,7 @@ var (
  */
 func initServer() {
 
-	log.Printf("HTTP SERVIVE LISTENING: %s", addr)
+	log.Printf("HTTP SERVICE LISTENING: %s", addr)
 
 	if err := configServer(routes.AplicationV1Router()).ListenAndServe(); err != nil {
 		log.Printf("%s", err)

@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"framework/app/model"
+	"os"
 	"framework/config"
-	"framework/database/postgresql"
+	"framework/database/psql"
 	"log"
 )
 
@@ -13,16 +12,25 @@ var (
 	serverConf = server.GetServerConf("config.yml")
 )
 
-type EnvConn struct {
-	db model.Datastore
+func main() {
+	if !serverConf {
+		log.Println("The configuration vars server didnt loaded!")
+	} else {
+		dataBaseInit()
+		initServer()
+	}
 }
 
-func main() {
-	conn := &EnvConn{postgresql.Conn()}
-	if serverConf {
-		log.Println("The configuration vars server was loaded!")
-	}
-	fmt.Println(conn)
-	initServer()
+/*
+* range all dialect and create news vars
+*/
+func dataBaseInit() {
+	var database = os.Getenv("postgresql_dialect")
+	switch database {
+	case "postgresql":
 
+		if err := psql.Connection.Set(psql.Conn()); err == nil {
+			log.Println("The database postgresql was loaded!")
+		} 
+	}
 }

@@ -1,9 +1,10 @@
 package config
 
 import (
-	"fmt"
 	"framework/tools/readfiles"
 	"os"
+	"fmt"
+	"log"
 )
 
 /**
@@ -25,11 +26,12 @@ type Server struct {
 func (s *Server) GetServerConf(path string) bool {
 	if server, err := readfiles.YamlFileToStruct(path); err != nil {
 		return false
-	} else if ok := setEnvFromStruct(server); !ok {
-		return !ok
+	} else if ok := setEnvFromStruct(server); ok {
+		log.Println("The configuration vars server was loaded!")
+		return true
 	}
 
-	return true
+	return false
 }
 
 /**
@@ -39,9 +41,13 @@ func (s *Server) GetServerConf(path string) bool {
  */
 func setEnvFromStruct(data map[string]map[string]interface{}) (success bool) {
 
-	for _, items := range data {
-		for key, item := range items {
-			os.Setenv(key, fmt.Sprintf("%v", item))
+	for key, items := range data {
+		for _key, item := range items {
+			if key == "database" {
+				os.Setenv(fmt.Sprintf("%s%s%s",items["dialect"],"_",_key), fmt.Sprintf("%v", item))
+			} else {
+				os.Setenv(_key, fmt.Sprintf("%v", item))
+			}
 		}
 	}
 

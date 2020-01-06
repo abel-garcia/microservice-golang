@@ -1,11 +1,14 @@
 package model
 
-import "database/sql"
+import (
+	pg "github.com/jackc/pgx"
+)
 
-type Datastore interface {
-	SaveBooks() ([]*Book, error)
+
+type DBpg struct {
+	*pg.Conn
 }
 
-type DB struct {
-	*sql.DB
+func (d *DBpg) GetConnection() *pg.Conn {
+	return d.Conn
 }
